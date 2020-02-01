@@ -1,0 +1,3 @@
+
+<ion-label *ngIf="caption" [position]="captionPosition">{{caption}}</ion-label>
+<ion-input [readonly]="isReadOnly" [placeholder]="placeholder" [value]="selectedText" (click)="showOptions($event)"></ion-input>
