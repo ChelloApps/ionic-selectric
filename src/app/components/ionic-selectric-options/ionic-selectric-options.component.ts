@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { NavParams } from '@ionic/angular';
+import { OptionsConfiguration } from '../../utility/OptionsConfiguration';
 
 @Component({
     selector: "app-ionic-selectric-options",
@@ -9,11 +10,17 @@ import { NavParams } from '@ionic/angular';
 export class IonicSelectricOptionsComponent implements OnInit {
     constructor(public navParams: NavParams) {}
 
+    public configuration: OptionsConfiguration;
+
     ngOnInit() {
-        this.options = this.navParams.data.options;
-        this.value = this.navParams.data.value;
+        this.configuration = this.navParams.data as OptionsConfiguration;
     }
 
-    public options: any[];
-    public value: any;
+    public isSelected(value: any) {
+        return value === this.configuration.value;
+    }
+
+    public selectOption(option: any) {
+        this.configuration.value = option.value;
+    }
 }

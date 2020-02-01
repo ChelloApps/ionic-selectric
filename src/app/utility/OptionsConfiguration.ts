@@ -1,4 +1,4 @@
-export class OptionCache {
+export class OptionsConfiguration {
     public constructor(options: any[], value: any) {
         this.options = options;
         this.value = value;
@@ -6,4 +6,6 @@ export class OptionCache {
 
     public options: any[] = [];
     public value: any;
+    public height: number;
+    public width: number;
 }

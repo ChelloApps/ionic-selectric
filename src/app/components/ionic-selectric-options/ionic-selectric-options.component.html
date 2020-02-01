@@ -1,1 +1,8 @@
-<p *ngFor="let option of options">{{option.text}}</p>
+
+    <ion-list>
+        <ion-item *ngFor="let option of configuration.options" button="true" (click)="selectOption(option)">
+            <ion-label>{{option.text}}</ion-label>
+            <ion-icon *ngIf="isSelected(option.value)" slot="end" name="checkmark"></ion-icon>
+        </ion-item>
+    </ion-list>
+
