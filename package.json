@@ -1,8 +1,9 @@
 {
   "name": "ionic-selectric",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Chelloapps",
+  "homepage": "https://github.com/ChelloApps/ionic-selectric",
+  "description": "An Ionic UI component to provide a searchable picker that is consistent in appearance to other Ionic UI components",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -53,6 +54,5 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
-  },
-  "description": "An Ionic project"
+  }
 }
