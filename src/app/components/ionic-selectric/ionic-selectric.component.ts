@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { PopoverController } from "@ionic/angular";
 import { IonicSelectricOptionsComponent } from "../ionic-selectric-options/ionic-selectric-options.component";
-import { OptionsConfiguration } from '../../utility/OptionsConfiguration';
+import { OptionsConfiguration } from "../../utility/OptionsConfiguration";
+import { SelectricDefaults } from "src/app/utility/SelectricDefaults";
 
 @Component({
     selector: "ionic-selectric",
@@ -58,15 +59,15 @@ export class IonicSelectricComponent {
         if (this.isOptionsVisible) {
             return;
         }
-        
+
         this._showOptionsPopover(ev);
     }
 
     private _initializeProperties() {
         this.placeholder = null;
         this.options = [];
-        this.propertyNameForText = "text";
-        this.propertyNameForValue = "value";
+        this.propertyNameForText = SelectricDefaults.PropertyNameForText;
+        this.propertyNameForValue = SelectricDefaults.PropertyNameForValue;
         this.value = null;
         this.valueChange = new EventEmitter<any>();
         this.isReadOnly = true;
@@ -94,14 +95,20 @@ export class IonicSelectricComponent {
             component: IonicSelectricOptionsComponent,
             event: ev,
             translucent: true,
-            componentProps: new OptionsConfiguration(this.options, this.value)
+            componentProps: new OptionsConfiguration(
+                this.options,
+                this.value,
+                this.propertyNameForValue,
+                this.propertyNameForText
+            )
         });
 
         this._optionsPopover.onDidDismiss().then(result => {
             this._hideOptionsPopover();
         });
 
-        this._optionsPopover.style.cssText = '--max-height: 25%; --max-width: 75%;';
+        this._optionsPopover.style.cssText =
+            "--max-height: 25%; --max-width: 75%;";
 
         return await this._optionsPopover.present();
     }
