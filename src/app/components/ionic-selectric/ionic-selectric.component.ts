@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { PopoverController } from "@ionic/angular";
 import { IonicSelectricOptionsComponent } from "../ionic-selectric-options/ionic-selectric-options.component";
+import { OptionCache } from './../../utility/OptionCache';
 
 @Component({
     selector: "ionic-selectric",
@@ -93,7 +94,7 @@ export class IonicSelectricComponent {
             component: IonicSelectricOptionsComponent,
             event: ev,
             translucent: true,
-            componentProps: { options: this.options }
+            componentProps: new OptionCache(this.options, this.value)
         });
 
         this._optionsPopover.onDidDismiss().then(result => {
