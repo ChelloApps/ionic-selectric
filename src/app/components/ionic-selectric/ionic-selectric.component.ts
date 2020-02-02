@@ -3,6 +3,7 @@ import { PopoverController } from "@ionic/angular";
 import { IonicSelectricOptionsComponent } from "../ionic-selectric-options/ionic-selectric-options.component";
 import { OptionsConfiguration } from "../../utility/OptionsConfiguration";
 import { SelectricDefaults } from "src/app/utility/SelectricDefaults";
+import { SelectionResult } from "src/app/utility/SelectionResult";
 
 @Component({
     selector: "ionic-selectric",
@@ -37,10 +38,12 @@ export class IonicSelectricComponent {
 
     @Input()
     public set value(value: any) {
+        const emitChange: boolean = this._value !== value;
         this._value = value;
         this._updateSelectedText();
-        if (this.valueChange) {
+        if (this.valueChange && emitChange) {
             this.valueChange.emit(this._value);
+            this.change.emit(this._value);
         }
     }
 
@@ -48,8 +51,11 @@ export class IonicSelectricComponent {
         return this._value;
     }
 
-    @Output("change")
+    @Output()
     public valueChange: EventEmitter<any>;
+
+    @Output()
+    public change: EventEmitter<any>;
 
     public isReadOnly: boolean;
     public isOptionsVisible: boolean;
@@ -70,6 +76,7 @@ export class IonicSelectricComponent {
         this.propertyNameForValue = SelectricDefaults.PropertyNameForValue;
         this.value = null;
         this.valueChange = new EventEmitter<any>();
+        this.change = new EventEmitter<any>();
         this.isReadOnly = true;
         this.selectedText = null;
     }
@@ -103,8 +110,12 @@ export class IonicSelectricComponent {
             )
         });
 
-        this._optionsPopover.onDidDismiss().then(result => {
-            this._hideOptionsPopover();
+        this._optionsPopover.onDidDismiss().then((popoverResult: any) => {
+            const result = popoverResult.data as SelectionResult;
+            if (result) {
+                this.value = result.value;
+            }
+            return this._hideOptionsPopover();
         });
 
         this._optionsPopover.style.cssText =
@@ -113,11 +124,11 @@ export class IonicSelectricComponent {
         return await this._optionsPopover.present();
     }
 
-    private _hideOptionsPopover() {
+    private async _hideOptionsPopover() {
         this.isOptionsVisible = false;
         if (!this._optionsPopover) {
             return;
         }
-        this._optionsPopover.dismiss();
+        await this._optionsPopover.dismiss();
     }
 }

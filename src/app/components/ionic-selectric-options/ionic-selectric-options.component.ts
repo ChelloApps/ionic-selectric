@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { NavParams } from "@ionic/angular";
+import { NavParams, PopoverController } from "@ionic/angular";
 import { OptionsConfiguration } from "../../utility/OptionsConfiguration";
 import { SelectricDefaults } from '../../utility/SelectricDefaults';
+import { SelectionResult } from 'src/app/utility/SelectionResult';
+import { SelectionAction } from 'src/app/utility/SelectionAction';
 
 @Component({
     selector: "app-ionic-selectric-options",
@@ -9,9 +11,11 @@ import { SelectricDefaults } from '../../utility/SelectricDefaults';
     styleUrls: ["./ionic-selectric-options.component.scss"]
 })
 export class IonicSelectricOptionsComponent implements OnInit {
-    constructor(public navParams: NavParams) {}
+    constructor(public navParams: NavParams, private popoverController: PopoverController) {}
 
     public configuration: OptionsConfiguration;
+    public value: any;
+    public text: string;
 
     public get nameForValue(): string {
         return this.configuration.propertyNameForValue || SelectricDefaults.PropertyNameForValue;
@@ -23,14 +27,35 @@ export class IonicSelectricOptionsComponent implements OnInit {
 
     ngOnInit() {
         this.configuration = this.navParams.data as OptionsConfiguration;
+        this.value = this.configuration.value;
     }
 
     public isSelected(value: any) {
-        return value === this.configuration.value;
+        return value === this.value;
     }
 
     public selectOption(option: any) {
-        this.configuration.value =
+        this.value =
             option[this.nameForValue];
+    }
+
+    public ok() {
+        this._performButtonClick(SelectionAction.Ok);
+    }
+
+    public clear() {
+        this._performButtonClick(SelectionAction.Clear);
+    }
+
+    public add() {
+        this._performButtonClick(SelectionAction.Add);
+    }
+
+    private _performButtonClick(action: SelectionAction) {
+        const result = new SelectionResult();
+        result.action = action;
+        result.value = this.value;
+        result.text = this.text;
+        this.popoverController.dismiss(result);
     }
 }
