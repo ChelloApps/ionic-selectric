@@ -28,6 +28,9 @@ export class IonicSelectricComponent {
     public captionPosition: string;
 
     @Input()
+    public hasSearchbar: boolean;
+
+    @Input()
     public propertyNameForValue: string;
 
     @Input()
@@ -79,6 +82,7 @@ export class IonicSelectricComponent {
         this.change = new EventEmitter<any>();
         this.isReadOnly = true;
         this.selectedText = null;
+        this.hasSearchbar = false;
     }
 
     private _updateSelectedText() {
@@ -106,7 +110,8 @@ export class IonicSelectricComponent {
                 this.options,
                 this.value,
                 this.propertyNameForValue,
-                this.propertyNameForText
+                this.propertyNameForText,
+                this.hasSearchbar
             )
         });
 

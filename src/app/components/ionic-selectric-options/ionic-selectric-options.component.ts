@@ -16,6 +16,7 @@ export class IonicSelectricOptionsComponent implements OnInit {
     public configuration: OptionsConfiguration;
     public value: any;
     public text: string;
+    public hasSearchbar: boolean;
 
     public get nameForValue(): string {
         return this.configuration.propertyNameForValue || SelectricDefaults.PropertyNameForValue;
@@ -28,6 +29,7 @@ export class IonicSelectricOptionsComponent implements OnInit {
     ngOnInit() {
         this.configuration = this.navParams.data as OptionsConfiguration;
         this.value = this.configuration.value;
+        this.hasSearchbar = this.configuration.hasSearchbar;
     }
 
     public isSelected(value: any) {

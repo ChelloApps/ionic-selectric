@@ -8,7 +8,7 @@
 
 <ion-content>
     <ion-item>
-        <ionic-selectric caption="Select colour" captionPosition="floating" [options]="options" [(value)]="value" (change)="change($event)"></ionic-selectric>
+        <ionic-selectric caption="Select colour" captionPosition="floating" [options]="options" [(value)]="value" [hasSearchbar]="true" (change)="change($event)"></ionic-selectric>
     </ion-item>
     <p>Selected Value: {{value}}</p>
     <p>Changed Value: {{changedValue}}</p>
