@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { NavParams, PopoverController } from "@ionic/angular";
+import { Component, OnInit } from "@angular/core";
+import { NavParams, ModalController } from "@ionic/angular";
 import { OptionsConfiguration } from "../../utility/OptionsConfiguration";
 import { SelectricDefaults } from '../../utility/SelectricDefaults';
 import { SelectionResult } from 'src/app/utility/SelectionResult';
@@ -11,7 +11,7 @@ import { SelectionAction } from 'src/app/utility/SelectionAction';
     styleUrls: ["./ionic-selectric-options.component.scss"]
 })
 export class IonicSelectricOptionsComponent implements OnInit {
-    constructor(public navParams: NavParams, private popoverController: PopoverController) {}
+    constructor(public navParams: NavParams, private modalController: ModalController) {}
 
     public configuration: OptionsConfiguration;
     public value: any;
@@ -36,6 +36,10 @@ export class IonicSelectricOptionsComponent implements OnInit {
         return value === this.value;
     }
 
+    public hasSelection(): boolean {
+        return !!this.value;
+    }
+
     public selectOption(option: any) {
         this.value =
             option[this.nameForValue];
@@ -46,6 +50,8 @@ export class IonicSelectricOptionsComponent implements OnInit {
     }
 
     public clear() {
+        this.value = null;
+        this.text = null;
         this._performButtonClick(SelectionAction.Clear);
     }
 
@@ -58,6 +64,6 @@ export class IonicSelectricOptionsComponent implements OnInit {
         result.action = action;
         result.value = this.value;
         result.text = this.text;
-        this.popoverController.dismiss(result);
+        this.modalController.dismiss(result);
     }
 }
