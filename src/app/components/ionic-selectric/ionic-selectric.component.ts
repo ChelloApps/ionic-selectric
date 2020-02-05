@@ -4,6 +4,7 @@ import { IonicSelectricOptionsComponent } from "../ionic-selectric-options/ionic
 import { OptionsConfiguration } from "../../utility/OptionsConfiguration";
 import { SelectricDefaults } from "src/app/utility/SelectricDefaults";
 import { SelectionResult } from "src/app/utility/SelectionResult";
+import { SelectionAction } from 'src/app/utility/SelectionAction';
 
 @Component({
     selector: "ionic-selectric",
@@ -115,14 +116,11 @@ export class IonicSelectricComponent {
 
         this._optionsModal.onDidDismiss().then((modalResult: any) => {
             const result = modalResult.data as SelectionResult;
-            if (result) {
+            if (result && result.action !== SelectionAction.Cancel) {
                 this.value = result.value;
             }
             return this._hideOptionsModal();
         });
-
-        this._optionsModal.style.cssText =
-            "--max-height: 25%; --max-width: 75%;";
 
         return await this._optionsModal.present();
     }

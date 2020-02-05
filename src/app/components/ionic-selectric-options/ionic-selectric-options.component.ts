@@ -45,6 +45,10 @@ export class IonicSelectricOptionsComponent implements OnInit {
             option[this.nameForValue];
     }
 
+    public cancel() {
+        this._performButtonClick(SelectionAction.Cancel);
+    }
+
     public ok() {
         this._performButtonClick(SelectionAction.Ok);
     }

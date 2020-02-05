@@ -15,8 +15,6 @@ export class OptionsConfiguration {
 
     public options: any[] = [];
     public value: any;
-    public height: number;
-    public width: number;
     public propertyNameForValue: string;
     public propertyNameForText: string;
     public hasSearchbar: boolean;
