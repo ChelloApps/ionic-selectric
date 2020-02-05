@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { PopoverController } from "@ionic/angular";
+import { ModalController } from "@ionic/angular";
 import { IonicSelectricOptionsComponent } from "../ionic-selectric-options/ionic-selectric-options.component";
 import { OptionsConfiguration } from "../../utility/OptionsConfiguration";
 import { SelectricDefaults } from "src/app/utility/SelectricDefaults";
@@ -11,12 +11,12 @@ import { SelectionResult } from "src/app/utility/SelectionResult";
     styleUrls: ["./ionic-selectric.component.scss"]
 })
 export class IonicSelectricComponent {
-    constructor(private popoverController: PopoverController) {
+    constructor(private modalController: ModalController) {
         this._initializeProperties();
     }
 
     private _value: any;
-    private _optionsPopover: HTMLIonPopoverElement;
+    private _optionsModal: HTMLIonModalElement;
 
     @Input()
     public placeholder: string;
@@ -69,7 +69,7 @@ export class IonicSelectricComponent {
             return;
         }
 
-        this._showOptionsPopover(ev);
+        this._showOptionsModal(ev);
     }
 
     private _initializeProperties() {
@@ -100,12 +100,10 @@ export class IonicSelectricComponent {
         );
     }
 
-    private async _showOptionsPopover(ev: any) {
+    private async _showOptionsModal(ev: any) {
         this.isOptionsVisible = true;
-        this._optionsPopover = await this.popoverController.create({
+        this._optionsModal = await this.modalController.create({
             component: IonicSelectricOptionsComponent,
-            event: ev,
-            translucent: true,
             componentProps: new OptionsConfiguration(
                 this.options,
                 this.value,
@@ -115,25 +113,25 @@ export class IonicSelectricComponent {
             )
         });
 
-        this._optionsPopover.onDidDismiss().then((popoverResult: any) => {
-            const result = popoverResult.data as SelectionResult;
+        this._optionsModal.onDidDismiss().then((modalResult: any) => {
+            const result = modalResult.data as SelectionResult;
             if (result) {
                 this.value = result.value;
             }
-            return this._hideOptionsPopover();
+            return this._hideOptionsModal();
         });
 
-        this._optionsPopover.style.cssText =
+        this._optionsModal.style.cssText =
             "--max-height: 25%; --max-width: 75%;";
 
-        return await this._optionsPopover.present();
+        return await this._optionsModal.present();
     }
 
-    private async _hideOptionsPopover() {
+    private async _hideOptionsModal() {
         this.isOptionsVisible = false;
-        if (!this._optionsPopover) {
+        if (!this._optionsModal) {
             return;
         }
-        await this._optionsPopover.dismiss();
+        await this._optionsModal.dismiss();
     }
 }
