@@ -41,6 +41,9 @@ export class IonicSelectricComponent {
     public options: any[];
 
     @Input()
+    public multiple: boolean;
+
+    @Input()
     public set value(value: any) {
         const emitChange: boolean = this._value !== value;
         this._value = value;
@@ -87,17 +90,24 @@ export class IonicSelectricComponent {
     }
 
     private _updateSelectedText() {
-        const selectedOption = this._getSelectedOption();
-        if (!selectedOption) {
+        const selectedOptions = this._getSelectedOptions();
+        if (selectedOptions.length < 1) {
             this.selectedText = null;
             return;
         }
-        this.selectedText = selectedOption[this.propertyNameForText];
+
+        this.selectedText = selectedOptions.map( so => so[this.propertyNameForText]).join(', ');
     }
 
-    private _getSelectedOption() {
-        return this.options.find(
-            o => o[this.propertyNameForValue] == this.value
+    private _getSelectedOptions(): Array<any> {
+        let filter: Array<any> = new Array<any>();
+        if (!this.multiple) {
+            filter.push(this.value);
+        } else {
+            filter = this.value;
+        }
+        return this.options.filter(
+            o => filter.indexOf(o[this.propertyNameForValue]) > -1
         );
     }
 
@@ -110,7 +120,8 @@ export class IonicSelectricComponent {
                 this.value,
                 this.propertyNameForValue,
                 this.propertyNameForText,
-                this.hasSearchbar
+                this.hasSearchbar,
+                this.multiple
             )
         });
 

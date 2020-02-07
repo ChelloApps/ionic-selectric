@@ -4,13 +4,20 @@ export class OptionsConfiguration {
         value: any,
         propertyNameForValue: string,
         propertyNameForText: string,
-        hasSearchbar: boolean
+        hasSearchbar: boolean,
+        multiple: boolean
     ) {
         this.options = options;
-        this.value = value;
+        if (multiple) {
+            this.value = Object.assign([], value);
+        } else {
+            this.value = value;
+        }
+        
         this.propertyNameForValue = propertyNameForValue;
         this.propertyNameForText = propertyNameForText;
         this.hasSearchbar = hasSearchbar;
+        this.multiple = multiple;
     }
 
     public options: any[] = [];
@@ -18,4 +25,5 @@ export class OptionsConfiguration {
     public propertyNameForValue: string;
     public propertyNameForText: string;
     public hasSearchbar: boolean;
+    public multiple: boolean;
 }

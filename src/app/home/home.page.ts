@@ -21,12 +21,12 @@ export class HomePage implements OnInit {
             { value: 9, text: "Grey" },
             { value: 10, text: "Orange" }
         ];
-        this.value = 6;
+        this.value = [6,8,2];
     }
 
     public options: any[];
-    public value: number;
-    public changedValue: number;
+    public value: any;
+    public changedValue: any;
 
     public change(value: any) {
         this.changedValue = value;
